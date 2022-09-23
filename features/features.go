@@ -18,31 +18,38 @@ import (
 // Features is used to denote which features to flip on or off; this is for use in maintaining
 // backwards compatibility
 type Features struct {
+	// VERSION 0.5
+	ExecAfterParallel        bool `long:"exec-after-parallel" description:"force execution after parallel conversion"`
+	ParallelLoad             bool `long:"parallel-load" description:"perform parallel loading of images into WITH DOCKER"`
+	UseRegistryForWithDocker bool `long:"use-registry-for-with-docker" description:"use embedded Docker registry for WITH DOCKER load operations"`
+
+	// VERSION 0.6
 	ReferencedSaveOnly         bool `long:"referenced-save-only" description:"only save artifacts that are directly referenced"`
 	UseCopyIncludePatterns     bool `long:"use-copy-include-patterns" description:"specify an include pattern to buildkit when performing copies"`
 	ForIn                      bool `long:"for-in" description:"allow the use of the FOR command"`
-	TryFinally                 bool `long:"try" description:"allow the use of the TRY/FINALLY commands"`
 	RequireForceForUnsafeSaves bool `long:"require-force-for-unsafe-saves" description:"require the --force flag when saving to path outside of current path"`
 	NoImplicitIgnore           bool `long:"no-implicit-ignore" description:"disable implicit ignore rules to exclude .tmp-earthly-out/, build.earth, Earthfile, .earthignore and .earthlyignore when resolving local context"`
-	CheckDuplicateImages       bool `long:"check-duplicate-images" description:"check for duplicate images during output"`
-	EarthlyVersionArg          bool `long:"earthly-version-arg" description:"includes EARTHLY_VERSION and EARTHLY_BUILD_SHA ARGs"`
-	EarthlyLocallyArg          bool `long:"earthly-locally-arg" description:"includes EARTHLY_LOCALLY ARG"`
-	EarthlyGitAuthorArgs       bool `long:"earthly-git-author-args" description:"includes EARTHLY_GIT_AUTHOR and EARTHLY_GIT_CO_AUTHORS ARGs"`
-	ExplicitGlobal             bool `long:"explicit-global" description:"require base target args to have explicit settings to be considered global args"`
-	UseCacheCommand            bool `long:"use-cache-command" description:"allow use of CACHE command in Earthfiles"`
-	UseHostCommand             bool `long:"use-host-command" description:"allow use of HOST command in Earthfiles"`
-	ExecAfterParallel          bool `long:"exec-after-parallel" description:"force execution after parallel conversion"`
-	UseCopyLink                bool `long:"use-copy-link" description:"use the equivalent of COPY --link for all copy-like operations"`
-	ParallelLoad               bool `long:"parallel-load" description:"perform parallel loading of images into WITH DOCKER"`
-	NoTarBuildOutput           bool `long:"no-tar-build-output" description:"do not print output when creating a tarball to load into WITH DOCKER"`
-	ShellOutAnywhere           bool `long:"shell-out-anywhere" description:"allow shelling-out in the middle of ARGs, or any other command"`
-	NewPlatform                bool `long:"new-platform" description:"enable new platform behavior"`
-	UseNoManifestList          bool `long:"use-no-manifest-list" description:"enable the SAVE IMAGE --no-manifest-list option"`
-	UseChmod                   bool `long:"use-chmod" description:"enable the SAVE IMAGE --no-manifest-list option"`
-	UseRegistryForWithDocker   bool `long:"use-registry-for-with-docker" description:"use embedded Docker registry for WITH DOCKER load operations"`
-	WaitBlock                  bool `long:"wait-block" description:"enable WITH/END feature, also allows RUN --push mixed with non-push commands"`
-	UseProjectSecrets          bool `long:"use-project-secrets" description:"enable project-based secret resolution"`
-	UsePipelines               bool `long:"use-pipelines" description:"enable the PIPELINE and TRIGGER commands"`
+
+	// potentials for VERSION 0.7
+	ExplicitGlobal       bool `long:"explicit-global" description:"require base target args to have explicit settings to be considered global args"`
+	CheckDuplicateImages bool `long:"check-duplicate-images" description:"check for duplicate images during output"`
+	EarthlyVersionArg    bool `long:"earthly-version-arg" description:"includes EARTHLY_VERSION and EARTHLY_BUILD_SHA ARGs"`
+	UseCacheCommand      bool `long:"use-cache-command" description:"allow use of CACHE command in Earthfiles"`
+	UseHostCommand       bool `long:"use-host-command" description:"allow use of HOST command in Earthfiles"`
+	UseCopyLink          bool `long:"use-copy-link" description:"use the equivalent of COPY --link for all copy-like operations"`
+	NewPlatform          bool `long:"new-platform" description:"enable new platform behavior"`
+	NoTarBuildOutput     bool `long:"no-tar-build-output" description:"do not print output when creating a tarball to load into WITH DOCKER"`
+	UseNoManifestList    bool `long:"use-no-manifest-list" description:"enable the SAVE IMAGE --no-manifest-list option"`
+	UseChmod             bool `long:"use-chmod" description:"enable the SAVE IMAGE --no-manifest-list option"`
+	ShellOutAnywhere     bool `long:"shell-out-anywhere" description:"allow shelling-out in the middle of ARGs, or any other command"`
+	EarthlyLocallyArg    bool `long:"earthly-locally-arg" description:"includes EARTHLY_LOCALLY ARG"`
+	UseProjectSecrets    bool `long:"use-project-secrets" description:"enable project-based secret resolution"`
+	UsePipelines         bool `long:"use-pipelines" description:"enable the PIPELINE and TRIGGER commands"`
+	EarthlyGitAuthorArgs bool `long:"earthly-git-author-args" description:"includes EARTHLY_GIT_AUTHOR and EARTHLY_GIT_CO_AUTHORS ARGs"`
+
+	// Unreleased
+	TryFinally bool `long:"try" description:"allow the use of the TRY/FINALLY commands"`
+	WaitBlock  bool `long:"wait-block" description:"enable WITH/END feature, also allows RUN --push mixed with non-push commands"`
 
 	NoUseRegistryForWithDocker bool `long:"no-use-registry-for-with-docker" description:"disable use-registry-for-with-docker"`
 
@@ -216,6 +223,11 @@ func GetFeatures(version *spec.Version) (*Features, bool, error) {
 		ftrs.NoTarBuildOutput = true
 		ftrs.UseNoManifestList = true
 		ftrs.UseChmod = true
+		ftrs.ShellOutAnywhere = true
+		ftrs.EarthlyLocallyArg = true
+		ftrs.UseProjectSecrets = true
+		ftrs.UsePipelines = true
+		ftrs.EarthlyGitAuthorArgs = true
 	}
 	processNegativeFlags(&ftrs)
 
