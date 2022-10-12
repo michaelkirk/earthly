@@ -80,8 +80,7 @@
   ],
   "version": {
     "args": [
-      "--use-copy-link",
-      "0.6"
+      "0.7"
     ]
   }
 }

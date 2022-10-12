@@ -238,8 +238,7 @@
   ],
   "version": {
     "args": [
-      "--earthly-version-arg",
-      "0.6"
+      "0.7"
     ]
   }
 }
