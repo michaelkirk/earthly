@@ -45,6 +45,8 @@ func Docker2Earthly(dockerfilePath, earthfilePath, imageTag string) error {
 			"# the conversion is done on a best-effort basis",
 			"# and might not follow best practices, please",
 			"# visit http://docs.earthly.dev for Earthfile guides",
+			"",
+			"VERSION 0.7",
 		},
 	}
 
