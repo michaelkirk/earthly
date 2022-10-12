@@ -71,7 +71,7 @@ mkdir -p ~/odd-project
 cd ~/odd-project
 git init
 cat <<EOF >> Earthfile
-
+VERSION 0.6
 FROM alpine:latest
 
 build:
