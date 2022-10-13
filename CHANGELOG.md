@@ -27,7 +27,7 @@ VERSION \
   --earthly-locally-arg \
   --use-project-secrets \
   --use-pipelines \
-  --earthly-git-author-args
+  --earthly-git-author-args \
   0.6
 ```
 
