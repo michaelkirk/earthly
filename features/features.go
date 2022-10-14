@@ -24,32 +24,32 @@ type Features struct {
 	UseRegistryForWithDocker bool `long:"use-registry-for-with-docker" description:"use embedded Docker registry for WITH DOCKER load operations"`
 
 	// VERSION 0.6
-	ReferencedSaveOnly         bool `long:"referenced-save-only" description:"only save artifacts that are directly referenced"`
-	UseCopyIncludePatterns     bool `long:"use-copy-include-patterns" description:"specify an include pattern to buildkit when performing copies"`
 	ForIn                      bool `long:"for-in" description:"allow the use of the FOR command"`
-	RequireForceForUnsafeSaves bool `long:"require-force-for-unsafe-saves" description:"require the --force flag when saving to path outside of current path"`
 	NoImplicitIgnore           bool `long:"no-implicit-ignore" description:"disable implicit ignore rules to exclude .tmp-earthly-out/, build.earth, Earthfile, .earthignore and .earthlyignore when resolving local context"`
+	ReferencedSaveOnly         bool `long:"referenced-save-only" description:"only save artifacts that are directly referenced"`
+	RequireForceForUnsafeSaves bool `long:"require-force-for-unsafe-saves" description:"require the --force flag when saving to path outside of current path"`
+	UseCopyIncludePatterns     bool `long:"use-copy-include-patterns" description:"specify an include pattern to buildkit when performing copies"`
 
 	// potentials for VERSION 0.7
-	ExplicitGlobal       bool `long:"explicit-global" description:"require base target args to have explicit settings to be considered global args"`
 	CheckDuplicateImages bool `long:"check-duplicate-images" description:"check for duplicate images during output"`
+	EarthlyGitAuthorArgs bool `long:"earthly-git-author-args" description:"includes EARTHLY_GIT_AUTHOR and EARTHLY_GIT_CO_AUTHORS ARGs"`
+	EarthlyLocallyArg    bool `long:"earthly-locally-arg" description:"includes EARTHLY_LOCALLY ARG"`
 	EarthlyVersionArg    bool `long:"earthly-version-arg" description:"includes EARTHLY_VERSION and EARTHLY_BUILD_SHA ARGs"`
-	UseCacheCommand      bool `long:"use-cache-command" description:"allow use of CACHE command in Earthfiles"`
-	UseHostCommand       bool `long:"use-host-command" description:"allow use of HOST command in Earthfiles"`
-	UseCopyLink          bool `long:"use-copy-link" description:"use the equivalent of COPY --link for all copy-like operations"`
+	ExplicitGlobal       bool `long:"explicit-global" description:"require base target args to have explicit settings to be considered global args"`
 	NewPlatform          bool `long:"new-platform" description:"enable new platform behavior"`
 	NoTarBuildOutput     bool `long:"no-tar-build-output" description:"do not print output when creating a tarball to load into WITH DOCKER"`
-	UseNoManifestList    bool `long:"use-no-manifest-list" description:"enable the SAVE IMAGE --no-manifest-list option"`
-	UseChmod             bool `long:"use-chmod" description:"enable the SAVE IMAGE --no-manifest-list option"`
 	ShellOutAnywhere     bool `long:"shell-out-anywhere" description:"allow shelling-out in the middle of ARGs, or any other command"`
-	EarthlyLocallyArg    bool `long:"earthly-locally-arg" description:"includes EARTHLY_LOCALLY ARG"`
-	UseProjectSecrets    bool `long:"use-project-secrets" description:"enable project-based secret resolution"`
+	UseCacheCommand      bool `long:"use-cache-command" description:"allow use of CACHE command in Earthfiles"`
+	UseChmod             bool `long:"use-chmod" description:"enable the SAVE IMAGE --no-manifest-list option"`
+	UseCopyLink          bool `long:"use-copy-link" description:"use the equivalent of COPY --link for all copy-like operations"`
+	UseHostCommand       bool `long:"use-host-command" description:"allow use of HOST command in Earthfiles"`
+	UseNoManifestList    bool `long:"use-no-manifest-list" description:"enable the SAVE IMAGE --no-manifest-list option"`
 	UsePipelines         bool `long:"use-pipelines" description:"enable the PIPELINE and TRIGGER commands"`
-	EarthlyGitAuthorArgs bool `long:"earthly-git-author-args" description:"includes EARTHLY_GIT_AUTHOR and EARTHLY_GIT_CO_AUTHORS ARGs"`
+	UseProjectSecrets    bool `long:"use-project-secrets" description:"enable project-based secret resolution"`
+	WaitBlock            bool `long:"wait-block" description:"enable WITH/END feature, also allows RUN --push mixed with non-push commands"`
 
 	// Unreleased
 	TryFinally bool `long:"try" description:"allow the use of the TRY/FINALLY commands"`
-	WaitBlock  bool `long:"wait-block" description:"enable WITH/END feature, also allows RUN --push mixed with non-push commands"`
 
 	NoUseRegistryForWithDocker bool `long:"no-use-registry-for-with-docker" description:"disable use-registry-for-with-docker"`
 
@@ -206,28 +206,29 @@ func GetFeatures(version *spec.Version) (*Features, bool, error) {
 		ftrs.UseRegistryForWithDocker = true
 	}
 	if versionAtLeast(ftrs, 0, 6) {
-		ftrs.ReferencedSaveOnly = true
-		ftrs.UseCopyIncludePatterns = true
 		ftrs.ForIn = true
-		ftrs.RequireForceForUnsafeSaves = true
 		ftrs.NoImplicitIgnore = true
+		ftrs.ReferencedSaveOnly = true
+		ftrs.RequireForceForUnsafeSaves = true
+		ftrs.UseCopyIncludePatterns = true
 	}
 	if versionAtLeast(ftrs, 0, 7) {
-		ftrs.ExplicitGlobal = true
 		ftrs.CheckDuplicateImages = true
+		ftrs.EarthlyGitAuthorArgs = true
+		ftrs.EarthlyLocallyArg = true
 		ftrs.EarthlyVersionArg = true
-		ftrs.UseCacheCommand = true
-		ftrs.UseHostCommand = true
-		ftrs.UseCopyLink = true
+		ftrs.ExplicitGlobal = true
 		ftrs.NewPlatform = true
 		ftrs.NoTarBuildOutput = true
-		ftrs.UseNoManifestList = true
-		ftrs.UseChmod = true
 		ftrs.ShellOutAnywhere = true
-		ftrs.EarthlyLocallyArg = true
-		ftrs.UseProjectSecrets = true
+		ftrs.UseCacheCommand = true
+		ftrs.UseChmod = true
+		ftrs.UseCopyLink = true
+		ftrs.UseHostCommand = true
+		ftrs.UseNoManifestList = true
 		ftrs.UsePipelines = true
-		ftrs.EarthlyGitAuthorArgs = true
+		ftrs.UseProjectSecrets = true
+		ftrs.WaitBlock = true
 	}
 	processNegativeFlags(&ftrs)
 
