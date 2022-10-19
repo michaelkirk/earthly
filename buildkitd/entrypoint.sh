@@ -239,9 +239,9 @@ echo "======== Buildkitd config =========="
 cat /etc/buildkitd.toml
 echo "======== End buildkitd config =========="
 echo ""
-echo "======== Buildkitd config =========="
+echo "======== OOM Adjust config =========="
 cat /bin/oom-adjust.sh
-echo "======== End buildkitd config =========="
+echo "======== OOM Adjust config =========="
 
 echo "Detected container architecture is $(uname -m)"
 
