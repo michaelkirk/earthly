@@ -10,6 +10,7 @@ ${TLS_ENABLED}
   enabled = true
   snapshotter = "auto"
   max-parallelism = ${BUILDKIT_MAX_PARALLELISM}
+  oom-score-adj = ${OOM_SCORE_ADJ}
   gc = true
   networkMode = "${NETWORK_MODE}"
   cniBinaryPath = "/usr/libexec/cni"

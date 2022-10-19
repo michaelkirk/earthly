@@ -214,14 +214,11 @@ if [ "$BUILDKIT_TLS_ENABLED" = "true" ]; then
 fi
 export TLS_ENABLED
 
-envsubst </etc/buildkitd.toml.template >/etc/buildkitd.toml
-
-# Set up OOM
+# Set up OomScoreAdj value
 OOM_SCORE_ADJ="${BUILDKIT_OOM_SCORE_ADJ:-0}"
 export OOM_SCORE_ADJ
 
-envsubst '${OOM_SCORE_ADJ}' </bin/oom-adjust.sh.template >/bin/oom-adjust.sh
-chmod +x /bin/oom-adjust.sh
+envsubst </etc/buildkitd.toml.template >/etc/buildkitd.toml
 
 echo "BUILDKIT_ROOT_DIR=$BUILDKIT_ROOT_DIR"
 echo "CACHE_SIZE_MB=$CACHE_SIZE_MB"
@@ -239,9 +236,6 @@ echo "======== Buildkitd config =========="
 cat /etc/buildkitd.toml
 echo "======== End buildkitd config =========="
 echo ""
-echo "======== OOM Adjust script =========="
-cat /bin/oom-adjust.sh
-echo "======== OOM Adjust config =========="
 
 echo "Detected container architecture is $(uname -m)"
 
