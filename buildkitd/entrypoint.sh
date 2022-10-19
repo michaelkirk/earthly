@@ -239,7 +239,7 @@ echo "======== Buildkitd config =========="
 cat /etc/buildkitd.toml
 echo "======== End buildkitd config =========="
 echo ""
-echo "======== OOM Adjust config =========="
+echo "======== OOM Adjust script =========="
 cat /bin/oom-adjust.sh
 echo "======== OOM Adjust config =========="
 
